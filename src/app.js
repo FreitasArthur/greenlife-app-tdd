@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 // Rotas
-app.get('/', (req, res) => res.render('index', { title: 'Shortz-App-TDD' }));
+app.get('/', (req, res) => res.render('index', { title: 'GreenLife - Plataforma de Sustentabilidade' }));
 
 // 404
 app.use((req, res) => res.status(404).render('error'));
