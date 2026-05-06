@@ -1,8 +1,11 @@
 import 'dotenv/config';
 import app from './app.js';
+import syncDatabase from './config/sync.js';
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Greenlife-App rodando em http://localhost:${PORT}`);
+syncDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 GreenLife rodando em http://localhost:${PORT}`);
+  });
 });
