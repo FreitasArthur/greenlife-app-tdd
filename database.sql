@@ -1,17 +1,9 @@
--- =============================================
--- GreenLife - Plataforma de Sustentabilidade
--- Script de criação do banco de dados
--- =============================================
-
 CREATE DATABASE IF NOT EXISTS greenlife_db
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
 USE greenlife_db;
 
--- ----------------------
--- TABELA: users
--- ----------------------
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
@@ -25,9 +17,6 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ----------------------
--- TABELA: categories
--- ----------------------
 CREATE TABLE IF NOT EXISTS categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL UNIQUE,
@@ -37,9 +26,6 @@ CREATE TABLE IF NOT EXISTS categories (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ----------------------
--- TABELA: tips
--- ----------------------
 CREATE TABLE IF NOT EXISTS tips (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(150) NOT NULL,
@@ -53,9 +39,6 @@ CREATE TABLE IF NOT EXISTS tips (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- ----------------------
--- TABELA: actions
--- ----------------------
 CREATE TABLE IF NOT EXISTS actions (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -69,9 +52,6 @@ CREATE TABLE IF NOT EXISTS actions (
   FOREIGN KEY (tip_id) REFERENCES tips(id) ON DELETE SET NULL
 );
 
--- ----------------------
--- TABELA: comments
--- ----------------------
 CREATE TABLE IF NOT EXISTS comments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -83,9 +63,6 @@ CREATE TABLE IF NOT EXISTS comments (
   FOREIGN KEY (tip_id) REFERENCES tips(id) ON DELETE CASCADE
 );
 
--- ----------------------
--- TABELA: favorites
--- ----------------------
 CREATE TABLE IF NOT EXISTS favorites (
   user_id INT NOT NULL,
   tip_id INT NOT NULL,
@@ -95,11 +72,6 @@ CREATE TABLE IF NOT EXISTS favorites (
   FOREIGN KEY (tip_id) REFERENCES tips(id) ON DELETE CASCADE
 );
 
--- =============================================
--- DADOS INICIAIS (seed)
--- =============================================
-
--- Categorias
 INSERT INTO categories (name, icon) VALUES
   ('Reciclagem', '♻️'),
   ('Energia', '⚡'),
@@ -107,12 +79,9 @@ INSERT INTO categories (name, icon) VALUES
   ('Alimentação', '🍎'),
   ('Mobilidade', '🚌');
 
--- Admin padrão (senha: admin123 — troque depois!)
--- hash bcrypt de 'admin123'
 INSERT INTO users (username, email, password, full_name, role) VALUES
   ('admin', 'admin@greenlife.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador', 'admin');
 
--- Dicas iniciais
 INSERT INTO tips (title, description, category_id, user_id) VALUES
   ('Como separar o lixo corretamente em casa', 'Separe resíduos secos, orgânicos e perigosos. Uma simples organização reduz o desperdício em até 60%.', 1, 1),
   ('Reduza o consumo de energia em stand-by', 'Desligar aparelhos da tomada no stand-by pode economizar até 10% da conta de luz mensal.', 2, 1),
